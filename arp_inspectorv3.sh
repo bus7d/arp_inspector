@@ -13,7 +13,7 @@ sed 's/://g' IP_OUI.txt >UniqueOUI.txt
 for mac in $(cat UniqueOUI.txt|cut -f2);do cat oui.txt|grep $mac >> UniqueVendor.txt;done 
 cat UniqueVendor.txt |sort -u >> RealVendor.txt
 
-for vendor in $(cat Vendors.txt);do cat UniqueARPHost.txt|grep "$vendors" > $vendors.txt;done
+for vendor in $(cat RealVendors.txt);do cat UniqueARPHost.txt|grep "$vendors" > $vendors.txt;done
 
 
 
