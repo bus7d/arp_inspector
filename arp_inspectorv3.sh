@@ -24,35 +24,38 @@ python2 noarpi.py>>toast.txt
 
 cat RESULTS.txt|grep -A1 Apple|grep OUI|cut -d ":" -f2  > AppleOUI.txt
  for forbidden in $(cat AppleOUI.txt );do cat RESULTS.txt |grep -A1 $forbidden|grep IP|cut -d ":" -f2>>appledevice.txt;done
-echo "Apple Devices:";wc -l appledevice.txt
+
 #recuperer les adresses MAC forbidden
 for ip in $(cat appledevice.txt );do cat UniqueARPHost.txt|grep $ip|cut -f2|cut -d " " -f1>>appleexcludelist.txt;done    
-
+echo "Apple Devices:";wc -l appleexcludelist.txt
 
 cat RESULTS.txt|grep -A1 Samsung|grep OUI|cut -d ":" -f2|sort -u   > SAMSUNGOUI.txt
 for forbidden in $(cat SAMSUNGOUI.txt );do cat RESULTS.txt |grep -A1 $forbidden|grep IP|cut -d ":" -f2|sort -u >>samsungdevice.txt;done
-echo "SAMSUNG Devices:";wc -l samsungdevice.txt
 for ip in $(cat samsungdevice.txt );do cat UniqueARPHost.txt|grep $ip|cut -f2|cut -d " " -f1>>samsungexcludelist.txt;done 
+echo "SAMSUNG Devices:";wc -l samsungexcludelist.txt
+
 
 cat RESULTS.txt|grep -A1 Intel|grep OUI|cut -d ":" -f2|sort -u   > INTELOUI.txt
 for forbidden in $(cat INTELOUI.txt );do cat RESULTS.txt |grep -A1 $forbidden|grep IP|cut -d ":" -f2|sort -u >>inteldevice.txt;done
-echo "Intel Devices:";wc -l inteldevices.txt
 for ip in $(cat samsungdevice.txt );do cat UniqueARPHost.txt|grep $ip|cut -f2|cut -d " " -f1>>intelexcludelist.txt;done 
+
+echo "Intel Devices:";wc -l intelexcludelist.txt
 
 cat RESULTS.txt|grep -A1 Cisco|grep OUI|cut -d ":" -f2|sort -u   > CISCOOUI.txt
 for forbidden in $(cat CISCOOUI.txt );do cat RESULTS.txt |grep -A1 $forbidden|grep IP|cut -d ":" -f2>>ciscodevice.txt;done
-echo "Cisco Devices:";wc -l ciscodevices.txt
 for ip in $(cat samsungdevice.txt );do cat UniqueARPHost.txt|grep $ip|cut -f2|cut -d " " -f1>>ciscoexcludelist.txt;done 
+echo "Cisco Devices:";wc -l ciscodexcludelist.txt
+
 
 cat RESULTS.txt|grep -A1 Hon|grep OUI|cut -d ":" -f2|sort -u   >HONHAIOUI.txt
 for forbidden in $(cat HONHAIOUI.txt );do cat RESULTS.txt |grep -A1 $forbidden|grep IP|cut -d ":" -f2>>honhaidevice.txt;done
-echo "HonHai Devices:";wc -l honhaidevices.txt
 for ip in $(cat samsungdevice.txt );do cat UniqueARPHost.txt|grep $ip|cut -f2|cut -d " " -f1>>honhaiexcludelist.txt;done 
+echo "HonHai Devices:";wc -l honhaiexcludelist.txt
+
 
 cat RESULTS.txt|grep -A1 Murata|grep OUI|cut -d ":" -f2|sort -u   > MURATAOUI.txt
 for forbidden in $(cat MURATAOUI.txt );do cat RESULTS.txt |grep -A1 $forbidden|grep IP|cut -d ":" -f2>>muratadevice.txt;done
-echo "Murata Devices:";wc -l muratadevices.txt
 for ip in $(cat samsungdevice.txt );do cat UniqueARPHost.txt|grep $ip|cut -f2|cut -d " " -f1>>murataxcludelist.txt;done 
-
+echo "Murata Devices:";wc -l murataexcludelist.txt
 
 
