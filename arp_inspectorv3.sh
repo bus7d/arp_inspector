@@ -36,19 +36,19 @@ for ip in $(cat samsungdevice.txt );do cat UniqueARPHost.txt|grep $ip|cut -f2|cu
 
 cat RESULTS.txt|grep -A1 Intel|grep OUI|cut -d ":" -f2|sort -u   > INTELOUI.txt
 for forbidden in $(cat INTELOUI.txt );do cat RESULTS.txt |grep -A1 $forbidden|grep IP|cut -d ":" -f2|sort -u >>inteldevice.txt;done
-echo "Intel Devices:",wc -l inteldevices.txt
+echo "Intel Devices:";wc -l inteldevices.txt
 
 cat RESULTS.txt|grep -A1 Cisco|grep OUI|cut -d ":" -f2|sort -u   > CISCOOUI.txt
 for forbidden in $(cat CISCOOUI.txt );do cat RESULTS.txt |grep -A1 $forbidden|grep IP|cut -d ":" -f2|sort -u >>ciscodevice.txt;done
-echo "Cisco Devices:",wc -l ciscodevices.txt
+echo "Cisco Devices:";wc -l ciscodevices.txt
 
 cat RESULTS.txt|grep -A1 Hon|grep OUI|cut -d ":" -f2|sort -u   >HONHAIOUI.txt
 for forbidden in $(cat HONHAIOUI.txt );do cat RESULTS.txt |grep -A1 $forbidden|grep IP|cut -d ":" -f2|sort -u >>honhaidevice.txt;done
-echo "HonHai Devices:",wc -l honhaidevices.txt
+echo "HonHai Devices:";wc -l honhaidevices.txt
 
 cat RESULTS.txt|grep -A1 Murata|grep OUI|cut -d ":" -f2|sort -u   > MURATAOUI.txt
 for forbidden in $(cat MURATAOUI.txt );do cat RESULTS.txt |grep -A1 $forbidden|grep IP|cut -d ":" -f2|sort -u >>muratadevice.txt;done
-echo "Murata Devices:",wc -l muratadevices.txt
+echo "Murata Devices:";wc -l muratadevices.txt
 
 
 
