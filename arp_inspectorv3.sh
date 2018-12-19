@@ -3,29 +3,39 @@
 #oui.txt and ouibase16.txt
 #noarpi.py
 
+#from all scans get IP and MACs
 cat *.arp|grep -Ev "Ending|packets|Interface|Starting"| cut -f1,2|cut -d " " -f 1 |sort -u>>UniqueARPHost.txt
 
+
+#from all IP and MAC get IP and OUI bytes
 cat UniqueARPHost.txt |cut -f 1,2 |cut -d " " -f 1 |cut -d ":" -f1,2,3 > IP_OUI.txt
 
-
+#Cleanup OUI bytes
 sed 's/://g' IP_OUI.txt >UniqueOUI.txt
 
-for mac in $(cat UniqueOUI.txt|cut -f2);do cat oui.txt|grep $mac >> UniqueVendor.txt;done 
+#GET VENDOR LIST in the SCANS
+for mac in $(cat UniqueOUI.txt|cut -f2|sort -u);do cat oui.txt|grep $mac >> UniqueVendor.txt;done 
 cat UniqueVendor.txt |sort -u >> RealVendor.txt
 
+#Create a file for each VENDORS
 for vendor in $(cat RealVendor.txt);do cat UniqueARPHost.txt|grep "$vendors" > $vendors.txt;done
 
 
-
+#MAKE FILE with Device number +OUI of the device +IP of the device
 python2 noarpi.py>>toast.txt
 
 
+#MAKE FILE WITH IPs sorted by VENDORS
  for oui in $(cat toast.txt|grep OUI|cut -d ":" -f2);do cat ouibase16.txt|grep $oui;cat toast.txt|grep -A1 $oui;echo "#############"; done > RESULTS.txt
+#attention traiter les scan individuellement avec une boucle for pour éviter plusieurs devices sur la mm IP.
 
+#recupere toutes les OUI APPLE dans le fichier RESULT !! on peut utiliser le string "####' pour récuperer cette info sans préciser le vendor
 cat RESULTS.txt|grep -A1 Apple|grep OUI|cut -d ":" -f2  > AppleOUI.txt
+
+#Recuperer les adresses IP utilisées par des devices apple
  for forbidden in $(cat AppleOUI.txt );do cat RESULTS.txt |grep -A1 $forbidden|grep IP|cut -d ":" -f2>>appledevice.txt;done
 
-#recuperer les adresses MAC forbidden
+#recuperer les adresses MAC forbidden pour chaque vendor (on devrait pouvoir utiliser les strings apres "####" dans RESULTS.txt pour enumérer les vendors.
 for ip in $(cat appledevice.txt );do cat UniqueARPHost.txt|grep $ip|cut -f2|cut -d " " -f1>>appleexcludelist.txt;done    
 echo "Apple Devices:";wc -l appleexcludelist.txt
 
