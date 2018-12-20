@@ -1,9 +1,15 @@
-#!/usr/bin/python2
+#!/bin/bash
 
+echo "ENTER VENDOR NAME"
+read VENDOR
 
-f=open("unique.macn","r")
-lines=f.readlines()
-m=open("ouiandmacs.txt","w+")
-for line in lines:
-	 lone=line[0:6]+"	"+line
-	 m.write(lone)
+cat $VENDOR.device|cut -d " " -f2 > $VENDOR.files 
+ 
+for files in $(cat $VENDOR.files );do cat $files|grep -v base >>$VENDOR.hosts;done
+ 
+cat $VENDOR.hosts|sort -u >$VENDOR.temp
+ echo "$VENDOR number "
+ wc -l $VENDOR.temp
+ 
+ 
+ 
