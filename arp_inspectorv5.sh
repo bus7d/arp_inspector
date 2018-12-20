@@ -22,5 +22,4 @@ for file in $(ls *.test);do wc -l $file >>file.list;cat $file|grep base>>file.li
 for vendor in $(cat Vendors.txt|cut -d " "  -f1);do cat file.list|grep -B1 $vendor|grep test>>$vendor.device;done
 chmod +x vendorcount.sh
 cat Vendors.txt
-echo " NOW PLEASE LAUNCH vendorcount.sh FOR EACH VENDORS IN Vendors.txt"
-./vendorcount.sh
+for vendor in $(cat Vendors.txt|cut -d " " -f1);do ./vendorcount.sh $vendor;done
